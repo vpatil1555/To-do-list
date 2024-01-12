@@ -2,12 +2,16 @@ document.addEventListener("DOMContentLoaded", function () {
   const todoList = document.getElementById("todo-list");
   const newTodoInput = document.getElementById("new-todo");
   const addButton = document.getElementById("add-button");
+  const todoContainer = document.getElementById("todo-container");
 
   addButton.addEventListener("click", function () {
     const todoText = newTodoInput.value.trim();
     if (todoText !== "") {
       addTodoItem(todoText);
       newTodoInput.value = "";
+
+      const currentMarginTop = parseInt(getComputedStyle(todoContainer).marginTop);
+      todoContainer.style.marginTop = currentMarginTop + 60 + "px";
     }
   });
 
@@ -15,10 +19,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const listItem = document.createElement("li");
     listItem.className = "todo-item";
     listItem.innerHTML = `
-      <input type="checkbox">
       <span>${text}</span>
-      <button class="edit-button">Edit</button>
-      <button class="delete-button">Delete</button>
+      <div class="buttons">
+        <button class="edit-button">Edit</button>
+        <button class="delete-button">Delete</button>
+      </div>
     `;
     todoList.appendChild(listItem);
 
@@ -31,6 +36,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
     deleteButton.addEventListener("click", function () {
       listItem.remove();
+
+      const currentMarginTop = parseInt(getComputedStyle(todoContainer).marginTop);
+      todoContainer.style.marginTop = currentMarginTop - 60 + "px";
     });
   }
 
